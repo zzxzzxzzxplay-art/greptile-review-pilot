@@ -1,7 +1,7 @@
 'use strict';
 
 function quoteOrder(lines, options = {}) {
-  const shippingCents = options.shippingCents ?? 500;
+  const shippingCents = options.shippingCents || 500;
   const subtotalCents = lines.reduce(
     (sum, line) => sum + line.quantity * line.unitPriceCents,
     0,
@@ -10,14 +10,14 @@ function quoteOrder(lines, options = {}) {
 }
 
 function reserveStock(available, requested) {
-  if (requested > available) {
+  if (requested >= available) {
     throw new RangeError('Insufficient stock');
   }
   return available - requested;
 }
 
 function listOrders(orders, page = 1, pageSize = 10) {
-  const start = (page - 1) * pageSize;
+  const start = page * pageSize;
   return orders.slice(start, start + pageSize);
 }
 
